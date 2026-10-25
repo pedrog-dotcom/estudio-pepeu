@@ -14,8 +14,8 @@ Você vai executar dois agentes em sequência: o Analista de pesquisa de mercado
    - `docs/guia-talking-head.md`
    - `agentes/01-analista-de-pesquisa.md` e `agentes/02-roteirista.md`
    - `calibracao/analista.md` e `calibracao/roteirista.md`
-2. Calibração: leia o Google Doc "Feedback do Pepeu" (id `18LeI83281j45iEKmOzVC_ZYZeFPCldRo-lNf7t66wD0`). Para cada linha sem `[aplicado]` que seja do analista ou do roteirista, escreva a regra no topo do arquivo de calibração certo, faça commit e push, e marque a linha como `[aplicado]` no doc.
-3. Leia as pautas anteriores na pasta `01 Pauta` (id `1u4ek08CUc96aUhPgFXEAVL5vXR57eD7d`) para não repetir tema das últimas 4 semanas.
+2. Calibração: leia o Google Doc "Feedback do Pepeu" (id `1OynTOcX3M8VMYOnD_FJuSOO_2kfB9vInTaR99DAV6bg`). Para cada linha sem `[aplicado]` que seja do analista ou do roteirista, escreva a regra no topo do arquivo de calibração certo, faça commit e push, e marque a linha como `[aplicado]` no doc.
+3. Leia as pautas anteriores na pasta `01 Pauta` (id `1NprCDUNZNK-pjwidWG7qXE6o7_IGjhnq`) para não repetir tema das últimas 4 semanas.
 
 ## Analista de pesquisa
 

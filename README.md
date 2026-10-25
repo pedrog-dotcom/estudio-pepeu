@@ -21,7 +21,7 @@ Os papéis estão em `agentes/`. O contexto comum (quem é o Pepeu, regras inego
 ## Como cada parte roda
 
 - **Pesquisa e roteiros:** tarefa agendada toda segunda, no Claude, com a skill `estudio-pepeu-pauta`.
-- **Produção (passos 4 a 6):** quando o Pepeu avisa que subiu um bruto, ou na verificação diária, com a skill `estudio-pepeu-producao`. O render roda na nuvem; o bruto vem do Google Drive sincronizado no computador do Pepeu, então o computador precisa estar ligado com o app do Claude aberto.
+- **Produção (passos 4 a 6):** quando o Pepeu avisa que subiu um bruto, ou na verificação diária, com a skill `estudio-pepeu-producao`. O render roda na nuvem; o bruto vem da pasta `C:\Users\Pepeu\Downloads\Estúdio Pepeu`, sincronizada com o Google Drive no computador do Pepeu, então o computador precisa estar ligado com o app do Claude aberto.
 - **Copies e calibração (passos 8 e 9):** skill `estudio-pepeu-publicacao`, depois da aprovação final.
 
 ## Pipeline de vídeo
