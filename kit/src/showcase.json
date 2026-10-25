@@ -1,0 +1,580 @@
+{
+ "head": "demo_head.mp4",
+ "clips": [],
+ "modes": [
+  {
+   "at": 0,
+   "mode": "anim"
+  }
+ ],
+ "captions": [
+  {
+   "text": "TRABALHO.",
+   "startMs": 100,
+   "endMs": 4700
+  },
+  {
+   "text": "TDAH.",
+   "startMs": 5100,
+   "endMs": 9700
+  },
+  {
+   "text": "JORNADA.",
+   "startMs": 10100,
+   "endMs": 14700
+  },
+  {
+   "text": "FINANÇAS.",
+   "startMs": 15100,
+   "endMs": 19700
+  },
+  {
+   "text": "POWERLIFTING.",
+   "startMs": 20100,
+   "endMs": 24700
+  },
+  {
+   "text": "ESTUDOS.",
+   "startMs": 25100,
+   "endMs": 29700
+  }
+ ],
+ "chapters": [
+  {
+   "at": 0.0,
+   "index": 1,
+   "total": 6,
+   "title": "Trabalho"
+  },
+  {
+   "at": 5.0,
+   "index": 2,
+   "total": 6,
+   "title": "TDAH"
+  },
+  {
+   "at": 10.0,
+   "index": 3,
+   "total": 6,
+   "title": "Jornada"
+  },
+  {
+   "at": 15.0,
+   "index": 4,
+   "total": 6,
+   "title": "Finanças"
+  },
+  {
+   "at": 20.0,
+   "index": 5,
+   "total": 6,
+   "title": "Powerlifting"
+  },
+  {
+   "at": 25.0,
+   "index": 6,
+   "total": 6,
+   "title": "Estudos"
+  }
+ ],
+ "beats": [
+  {
+   "at": 0.15,
+   "el": "IconRow",
+   "until": 2.1,
+   "props": {
+    "x": 540,
+    "y": 470,
+    "cols": 4,
+    "gap": 160,
+    "rowGap": 185,
+    "size": 0.95,
+    "items": [
+     {
+      "name": "notebook",
+      "at": 4
+     },
+     {
+      "name": "maleta",
+      "at": 8
+     },
+     {
+      "name": "email",
+      "at": 12
+     },
+     {
+      "name": "agenda",
+      "at": 16
+     },
+     {
+      "name": "cafe",
+      "at": 20
+     },
+     {
+      "name": "cracha",
+      "at": 24
+     },
+     {
+      "name": "reuniao",
+      "at": 28
+     },
+     {
+      "name": "planilha",
+      "at": 32
+     }
+    ]
+   }
+  },
+  {
+   "at": 2.2,
+   "el": "Checklist",
+   "props": {
+    "x": 540,
+    "y": 500,
+    "w": 440,
+    "title": "HOJE",
+    "items": [
+     {
+      "text": "reunião",
+      "at": 72,
+      "state": "ok"
+     },
+     {
+      "text": "e-mail",
+      "at": 82,
+      "state": "ok"
+     },
+     {
+      "text": "entrega",
+      "at": 94,
+      "state": "falha"
+     }
+    ]
+   }
+  },
+  {
+   "at": 5.15,
+   "el": "IconRow",
+   "until": 7.1,
+   "props": {
+    "x": 540,
+    "y": 470,
+    "cols": 4,
+    "gap": 160,
+    "rowGap": 185,
+    "size": 0.95,
+    "items": [
+     {
+      "name": "cerebro",
+      "at": 154
+     },
+     {
+      "name": "abas",
+      "at": 158
+     },
+     {
+      "name": "sino",
+      "at": 162
+     },
+     {
+      "name": "bateria",
+      "at": 166
+     },
+     {
+      "name": "relogio",
+      "at": 170
+     },
+     {
+      "name": "fone",
+      "at": 174
+     },
+     {
+      "name": "lampada",
+      "at": 178
+     },
+     {
+      "name": "emaranhado",
+      "at": 182
+     }
+    ]
+   }
+  },
+  {
+   "at": 7.2,
+   "el": "Tabs",
+   "until": 8.65,
+   "props": {
+    "x": 540,
+    "y": 500,
+    "w": 520,
+    "title": "foco?",
+    "tabs": [
+     {
+      "label": "relatório",
+      "at": 220
+     },
+     {
+      "label": "e-mail",
+      "at": 224
+     },
+     {
+      "label": "youtube",
+      "at": 228
+     },
+     {
+      "label": "planilha",
+      "at": 232
+     },
+     {
+      "label": "mercado",
+      "at": 236
+     },
+     {
+      "label": "curso",
+      "at": 240
+     },
+     {
+      "label": "notícia",
+      "at": 244
+     },
+     {
+      "label": "treino",
+      "at": 248
+     }
+    ]
+   }
+  },
+  {
+   "at": 8.7,
+   "el": "Battery",
+   "props": {
+    "x": 540,
+    "y": 520,
+    "from": 0.85,
+    "to": 0.15,
+    "dur": 26,
+    "label": "ENERGIA"
+   }
+  },
+  {
+   "at": 10.15,
+   "el": "IconRow",
+   "until": 12.1,
+   "props": {
+    "x": 540,
+    "y": 470,
+    "cols": 4,
+    "gap": 160,
+    "rowGap": 185,
+    "size": 0.95,
+    "items": [
+     {
+      "name": "escada",
+      "at": 304
+     },
+     {
+      "name": "alvo",
+      "at": 308
+     },
+     {
+      "name": "bandeira",
+      "at": 312
+     },
+     {
+      "name": "foguete",
+      "at": 316
+     },
+     {
+      "name": "trofeu",
+      "at": 320
+     },
+     {
+      "name": "caminho",
+      "at": 324
+     },
+     {
+      "name": "porta",
+      "at": 328
+     },
+     {
+      "name": "medalha",
+      "at": 332
+     }
+    ]
+   }
+  },
+  {
+   "at": 12.2,
+   "el": "Stairs",
+   "props": {
+    "x": 540,
+    "y": 520,
+    "w": 520,
+    "h": 320,
+    "steps": [
+     {
+      "label": "estágio",
+      "at": 366
+     },
+     {
+      "label": "júnior",
+      "at": 372
+     },
+     {
+      "label": "pleno",
+      "at": 378
+     },
+     {
+      "label": "sênior",
+      "at": 384
+     },
+     {
+      "label": "líder",
+      "at": 390
+     }
+    ]
+   }
+  },
+  {
+   "at": 15.15,
+   "el": "IconRow",
+   "until": 17.1,
+   "props": {
+    "x": 540,
+    "y": 470,
+    "cols": 4,
+    "gap": 160,
+    "rowGap": 185,
+    "size": 0.95,
+    "items": [
+     {
+      "name": "moeda",
+      "at": 454
+     },
+     {
+      "name": "cofrinho",
+      "at": 458
+     },
+     {
+      "name": "cartao",
+      "at": 462
+     },
+     {
+      "name": "holerite",
+      "at": 466
+     },
+     {
+      "name": "cedula",
+      "at": 470
+     },
+     {
+      "name": "cadeado",
+      "at": 474
+     },
+     {
+      "name": "calculadora",
+      "at": 478
+     },
+     {
+      "name": "crescimento",
+      "at": 482
+     }
+    ]
+   }
+  },
+  {
+   "at": 17.2,
+   "el": "Payslip",
+   "props": {
+    "x": 540,
+    "y": 520,
+    "w": 520,
+    "rows": [
+     {
+      "label": "salário bruto",
+      "value": 8500,
+      "at": 522,
+      "kind": "+"
+     },
+     {
+      "label": "descontos",
+      "value": 1640,
+      "at": 536,
+      "kind": "-"
+     },
+     {
+      "label": "líquido",
+      "value": 6860,
+      "at": 552,
+      "kind": "="
+     }
+    ]
+   }
+  },
+  {
+   "at": 20.15,
+   "el": "IconRow",
+   "until": 22.1,
+   "props": {
+    "x": 540,
+    "y": 470,
+    "cols": 4,
+    "gap": 160,
+    "rowGap": 185,
+    "size": 0.95,
+    "items": [
+     {
+      "name": "barra",
+      "at": 604
+     },
+     {
+      "name": "anilha",
+      "at": 608
+     },
+     {
+      "name": "halter",
+      "at": 612
+     },
+     {
+      "name": "kettlebell",
+      "at": 616
+     },
+     {
+      "name": "cinto",
+      "at": 620
+     },
+     {
+      "name": "rack",
+      "at": 624
+     },
+     {
+      "name": "pr",
+      "at": 628
+     },
+     {
+      "name": "giz",
+      "at": 632
+     }
+    ]
+   }
+  },
+  {
+   "at": 22.2,
+   "el": "Barbell",
+   "props": {
+    "x": 540,
+    "y": 560,
+    "size": 0.62,
+    "label": "AGACHAMENTO",
+    "pr": true,
+    "plates": [
+     {
+      "kg": 25,
+      "at": 672
+     },
+     {
+      "kg": 25,
+      "at": 679
+     },
+     {
+      "kg": 20,
+      "at": 686
+     },
+     {
+      "kg": 20,
+      "at": 693
+     }
+    ]
+   }
+  },
+  {
+   "at": 25.15,
+   "el": "IconRow",
+   "until": 27.1,
+   "props": {
+    "x": 540,
+    "y": 470,
+    "cols": 4,
+    "gap": 160,
+    "rowGap": 185,
+    "size": 0.95,
+    "items": [
+     {
+      "name": "livro",
+      "at": 754
+     },
+     {
+      "name": "pilha",
+      "at": 758
+     },
+     {
+      "name": "capelo",
+      "at": 762
+     },
+     {
+      "name": "lapis",
+      "at": 766
+     },
+     {
+      "name": "caderno",
+      "at": 770
+     },
+     {
+      "name": "diploma",
+      "at": 774
+     },
+     {
+      "name": "quadro",
+      "at": 778
+     },
+     {
+      "name": "pomodoro",
+      "at": 782
+     }
+    ]
+   }
+  },
+  {
+   "at": 27.2,
+   "el": "Timer",
+   "until": 28.599999999999998,
+   "props": {
+    "x": 540,
+    "y": 500,
+    "minutes": 25,
+    "dur": 30,
+    "label": "FOCO"
+   }
+  },
+  {
+   "at": 28.65,
+   "el": "Streak",
+   "props": {
+    "x": 540,
+    "y": 520,
+    "cols": 7,
+    "cell": 74,
+    "every": 2,
+    "label": "14 DIAS",
+    "marks": [
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "falha",
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "ok",
+     "ok"
+    ]
+   }
+  }
+ ],
+ "punches": [],
+ "durationInFrames": 900
+}
