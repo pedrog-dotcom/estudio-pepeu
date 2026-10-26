@@ -70,16 +70,40 @@ def prep(raw, slug):
     np.save(d / "db10ms.npy", db)
 
     print("2/4 transcrevendo por trechos de fala...")
-    out = sh(f'ffmpeg -hide_banner -i "{d}/audio16k.wav" -af silencedetect=noise=-38dB:d=0.25 -f null -').stderr
-    st = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", out)]
-    en = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", out)]
-    dur, prev, speech = len(a) / 16000, 0.0, []
-    for s, e in zip(st, en):
+    transcrever(slug, a, db)
+
+    print("3/4 detectando vicios de linguagem (eeee, aaaa, palavra alongada)...")
+    fillers = detect_fillers(d / "audio16k.wav", db)
+    json.dump(fillers, open(d / "vicios.json", "w"))
+    meta = {"slug": slug, "head": head.name, "duracao_s": round(dur, 2), "bruto": str(raw)}
+    json.dump(meta, open(d / "meta.json", "w"), ensure_ascii=False, indent=1)
+    print(f"4/4 pronto: {len(fillers)} vicios. Transcricao em {d / 'transcricao.txt'}")
+
+
+def speech_segments(db, min_pause=0.25):
+    """Trechos de fala separados por pausas reais (envelope RMS de 10ms abaixo de -38 dB por >= min_pause)."""
+    sil = db <= THR
+    pauses, st = [], None
+    for i, v in enumerate(np.r_[sil, False]):
+        if v and st is None: st = i
+        if not v and st is not None:
+            if (i - st) / 100 >= min_pause: pauses.append((st / 100, i / 100))
+            st = None
+    dur, prev, speech = len(db) / 100, 0.0, []
+    for s, e in pauses:
         if s - prev > 0.05: speech.append((prev, s))
         prev = e
     if dur - prev > 0.1: speech.append((prev, dur))
+    return speech
+
+
+def transcrever(slug, a=None, db=None):
+    d = wdir(slug)
+    if a is None: a = load16(d / "audio16k.wav")
+    if db is None: db = np.load(d / "db10ms.npy")
+    dur = len(a) / 16000
     merged = []
-    for s, e in speech:
+    for s, e in speech_segments(db):
         if merged and s - merged[-1][1] < 0.35 and e - merged[-1][0] < 12: merged[-1] = (merged[-1][0], e)
         else: merged.append((s, e))
     m = whisper_model()
@@ -88,18 +112,11 @@ def prep(raw, slug):
         s0, e0 = max(0, s - 0.08), min(dur, e + 0.08)
         seg = np.concatenate([np.zeros(4800, np.float32), a[int(s0 * 16000):int(e0 * 16000)], np.zeros(4800, np.float32)])
         r = m.transcribe(seg, language="pt", initial_prompt=PROMPT, beam_search={"beam_size": 5, "patience": -1.0})
-        txt = " ".join(x.text.strip() for x in r)
-        chunks.append({"i": i, "s": round(s, 2), "e": round(e, 2), "text": txt})
+        chunks.append({"i": i, "s": round(s, 2), "e": round(e, 2), "text": " ".join(x.text.strip() for x in r)})
     json.dump(chunks, open(d / "chunks.json", "w"), ensure_ascii=False, indent=1)
     with open(d / "transcricao.txt", "w") as f:
         for c in chunks: f.write(f"{c['i']:03d} {c['s']:7.2f}-{c['e']:7.2f} | {c['text']}\n")
-
-    print("3/4 detectando vicios de linguagem (eeee, aaaa, palavra alongada)...")
-    fillers = detect_fillers(d / "audio16k.wav", db)
-    json.dump(fillers, open(d / "vicios.json", "w"))
-    meta = {"slug": slug, "head": head.name, "duracao_s": round(dur, 2), "bruto": str(raw)}
-    json.dump(meta, open(d / "meta.json", "w"), ensure_ascii=False, indent=1)
-    print(f"4/4 pronto: {len(chunks)} trechos, {len(fillers)} vicios. Transcricao em {d / 'transcricao.txt'}")
+    return chunks
 
 
 def flux(y, sr=16000):
@@ -406,6 +423,7 @@ if __name__ == "__main__":
     if not a: sys.exit(__doc__)
     cmd = a[0]
     if cmd == "prep": prep(Path(a[1]).resolve(), a[2])
+    elif cmd == "transcrever": transcrever(a[1])
     elif cmd == "build": build(a[1])
     elif cmd == "check": check(a[1])
     elif cmd == "cenas": cenas(a[1])
