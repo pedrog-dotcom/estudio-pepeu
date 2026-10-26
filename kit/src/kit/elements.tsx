@@ -21,8 +21,13 @@ const Txt: React.FC<{ x?: number; y?: number; size: number; font?: string; weigh
 );
 
 // Etiqueta de papel (nome de personagem, rotulo)
-export const Tag: React.FC<Base & { text: string; variant?: "paper" | "ink" | "marker"; size?: number; rot?: number }> = ({ start, x, y, text, variant = "paper", size = 34, rot = -2, seed = 3 }) => {
-  const w = text.length * size * 0.62 + 36;
+export const Tag: React.FC<Base & { text: string; variant?: "paper" | "ink" | "marker"; size?: number; rot?: number }> = ({ start, x, y, text, variant = "paper", size: size0 = 34, rot = -2, seed = 3 }) => {
+  // caixa alta da fonte display e mais larga: folga para o texto nao encostar na borda;
+  // texto longo encolhe para a etiqueta caber na area segura do palco (560 de largura)
+  const caps = text === text.toUpperCase();
+  const k = caps ? 0.7 : 0.6;
+  const size = Math.min(size0, (540 - 48) / (text.length * k));
+  const w = text.length * size * k + 48;
   const h = size * 1.55;
   const bg = variant === "ink" ? C.ink : variant === "marker" ? C.marker : C.white;
   const fg = variant === "ink" ? C.white : C.ink;
@@ -70,14 +75,17 @@ export const PostIt: React.FC<Base & { text: string; color?: keyof typeof POSTIT
   const t = Math.min(1, (f - start) / (0.22 * fps));
   const drop = interpolate(t, [0, 1], [-70, 0], { easing: Easing.out(Easing.back(1.6)) });
   const r = interpolate(t, [0, 1], [rot - 10, rot]);
-  const lines = wrap(text, 13);
+  // quebra e tamanho seguem a largura do post-it: o texto nunca vaza da folha
+  const lines = wrap(text, Math.max(6, Math.floor(w / 19)));
+  const longest = Math.max(...lines.map((l) => l.length));
+  const size = Math.min(44, Math.floor((w - 28) / (longest * 0.5)));
   return (
     <g transform={`translate(${x} ${y + drop}) rotate(${r})`} opacity={Math.min(1, t * 3)}>
       <rect x={-w / 2 + 8} y={-w / 2 + 12} width={w} height={w} fill={C.shade} />
       <rect x={-w / 2} y={-w / 2} width={w} height={w} fill={POSTIT[color]} />
       <rect x={-w / 2} y={-w / 2} width={w} height={26} fill="rgba(0,0,0,0.06)" />
       {lines.map((ln, i) => (
-        <Txt key={i} y={(i - (lines.length - 1) / 2) * 50 + 8} size={44} font={F.hand} weight={700}>{ln}</Txt>
+        <Txt key={i} y={(i - (lines.length - 1) / 2) * size * 1.14 + 8} size={size} font={F.hand} weight={700}>{ln}</Txt>
       ))}
     </g>
   );
