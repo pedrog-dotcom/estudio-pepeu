@@ -134,13 +134,16 @@ const Caption: React.FC<{ words: CaptionWord[]; y: number }> = ({ words, y }) =>
   if (t > end) return null;
   const pop = interpolate(f - (page[0].startMs / 1000) * fps, [0, 4], [0.84, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.back(2)) });
   const clean = (s: string) => s.replace(/[,.;:]$/, "").toUpperCase();
+  // palavra unica muito longa (ex.: SUPERPROCESSAMENTO) encolhe para caber na tira
+  const chars = page.map((w) => clean(w.text)).join(" ").length;
+  const size = Math.min(84, Math.floor((84 * 15) / Math.max(chars, 1)));
   return (
     <div style={{ position: "absolute", left: 0, width: L.W, top: y - 62, display: "flex", justifyContent: "center" }}>
       <div style={{ transform: `rotate(-1.2deg) scale(${pop})`, background: C.white, padding: "8px 26px 12px", boxShadow: "5px 7px 0 rgba(28,32,51,0.25)", display: "flex", gap: 18 }}>
         {page.map((w, i) => {
           const active = t >= w.startMs - 30 && t < (page[i + 1]?.startMs ?? end);
           return (
-            <span key={i} style={{ position: "relative", fontFamily: F.display, fontWeight: 800, fontSize: 84, lineHeight: 1.05, color: C.ink, letterSpacing: -1 }}>
+            <span key={i} style={{ position: "relative", fontFamily: F.display, fontWeight: 800, fontSize: size, lineHeight: 1.05, color: C.ink, letterSpacing: -1 }}>
               {active && <span style={{ position: "absolute", left: -10, right: -10, top: "18%", bottom: "8%", background: C.marker, transform: "skewX(-8deg) rotate(-1deg)", borderRadius: 4 }} />}
               <span style={{ position: "relative" }}>{clean(w.text)}</span>
             </span>
