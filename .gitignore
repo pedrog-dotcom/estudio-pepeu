@@ -5,3 +5,4 @@ kit/out/
 kit/public/bruto_*.mp4
 kit/public/voz_*.wav
 kit/src/videos/*.json
+__pycache__/
