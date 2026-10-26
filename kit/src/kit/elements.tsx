@@ -161,7 +161,7 @@ export const LineChart: React.FC<Base & { w?: number; h?: number; points: number
         {title && <Txt x={w / 2} y={34} size={30}>{title}</Txt>}
         <Sketch paths={sk.linear(pts, { seed: seed + 1, stroke: color, strokeWidth: 9, roughness: 0.7 })} draw={draw} />
         {draw > 0.98 && <circle cx={end[0]} cy={end[1]} r={11} fill={color} />}
-        {endLabel && draw > 0.98 && <Txt x={end[0] - 10} y={end[1] < h * 0.45 ? end[1] + 52 : end[1] - 40} size={40} font={F.mono} weight={700} fill={color} anchor="end">{endLabel}</Txt>}
+        {endLabel && draw > 0.98 && <Txt x={end[0] - 10} y={end[1] - 40} size={40} font={F.mono} weight={700} fill={color} anchor="end">{endLabel}</Txt>}
       </g>
     </Pop>
   );
