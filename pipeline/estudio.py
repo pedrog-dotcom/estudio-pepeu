@@ -69,6 +69,7 @@ def prep(raw, slug):
     db = 20 * np.log10(np.sqrt((a[: n * 160].reshape(n, 160) ** 2).mean(1)) + 1e-9)
     np.save(d / "db10ms.npy", db)
 
+    dur = len(a) / 16000
     print("2/4 transcrevendo por trechos de fala...")
     transcrever(slug, a, db)
 
