@@ -91,3 +91,12 @@ Cores: ink #1C2033, pen #2A55C9, gain #1E8C5A (só ganho), alert #EE4E36 (só pe
 ## Componente novo (Designer)
 
 Quando o Editor precisar de algo que não existe acima, o Designer cria um componente novo em `kit/src/kit/` seguindo `docs/identidade-caderno-de-carreira.md` (traço roughjs com semente fixa, paleta, fontes), registra em `ELEMENTS` e em `SFX_OF` no `Explainer.tsx`, e documenta aqui.
+
+## Checklist de revisão das folhas (aprendido na produção de 26/10/2026)
+
+- Palco nunca abre vazio: a tela dividida ou de explicação começa no máximo 0,5s antes do primeiro elemento. Se o elemento entra depois, atrase a troca de tela (e o capítulo junto).
+- Na tela dividida, tudo fica com y até 520; abaixo disso a divisória esconde.
+- Carimbo com texto longo (14 letras ou mais) fica entre x 480 e 600; perto de 330 ele encosta na borda do papel.
+- Etiqueta e post-it já ajustam o texto ao tamanho, mas texto curto fica maior e mais legível: post-it com até 16 letras.
+- Gráfico de linha com título e rótulo final no alto se sobrepõem: use só o título ("SPRINTS ATÉ O OBJETIVO").
+- Confira quadro a quadro com ffmpeg os trechos onde um elemento entra perto do fim de uma tela: a folha amostra só alguns quadros.
