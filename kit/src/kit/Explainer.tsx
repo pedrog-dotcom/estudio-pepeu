@@ -111,6 +111,8 @@ const ChapterTab: React.FC<{ chapters: Chapter[] }> = ({ chapters }) => {
 const pagesOf = (words: CaptionWord[]) => {
   const pages: CaptionWord[][] = []; let cur: CaptionWord[] = [];
   for (const w of words) {
+    // duas palavras longas nao cabem na tira: a segunda vai para a proxima pagina
+    if (cur.length && [...cur, w].map((c) => c.text).join(" ").length > 17) { pages.push(cur); cur = []; }
     cur.push(w);
     const len = cur.map((c) => c.text).join(" ").length;
     if (cur.length >= 2 || len >= 13 || /[.,?!:…]$/.test(w.text)) { pages.push(cur); cur = []; }
