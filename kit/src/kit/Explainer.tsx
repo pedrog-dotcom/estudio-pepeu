@@ -5,6 +5,7 @@ import { Arrow, Bars, Cell, Checklist, Counter, LineChart, Person, Pin, PostIt, 
 import { Barbell, Battery, Icon, IconRow, Payslip, Stairs, Streak, Tabs, Timer } from "./narrative";
 import { C, F, L, loadKitFonts } from "./theme";
 import { HookCard, HookProps } from "./hook";
+import { BusRoute, DayClock, Receipt, SalaryLadder } from "./scenes";
 
 loadKitFonts();
 
@@ -28,7 +29,7 @@ export type ExplainerProps = {
   hook?: HookProps; // cena de gancho por cima do rosto nos primeiros segundos
 };
 
-const ELEMENTS = { Person, Tag, PostIt, Stamp, Pin, Arrow, LineChart, Bars, Checklist, Cell, Counter, Thesis, Icon, IconRow, Tabs, Battery, Timer, Stairs, Barbell, Payslip, Streak } as const;
+const ELEMENTS = { Person, Tag, PostIt, Stamp, Pin, Arrow, LineChart, Bars, Checklist, Cell, Counter, Thesis, Icon, IconRow, Tabs, Battery, Timer, Stairs, Barbell, Payslip, Streak, SalaryLadder, DayClock, Receipt, BusRoute } as const;
 
 const MODE_VALUES: Record<Mode, { div: number; capY: number }> = {
   head: { div: 0, capY: 1330 },
@@ -251,6 +252,10 @@ const SFX_OF: Record<string, (b: Beat, s: number) => Cue[]> = {
   Stairs: (b, s) => ((b.props.steps as { at: number }[]) ?? []).map((st) => ({ f: st.at, s: "pop", v: 0.25 })),
   Barbell: (b, s) => [{ f: s, s: "pop", v: 0.22 }, ...((b.props.plates as { at: number }[]) ?? []).map((p) => ({ f: p.at + 4, s: "stamp", v: 0.22 }))],
   Payslip: (b, s) => [{ f: s, s: "paper", v: 0.35 }, ...((b.props.rows as { at: number; kind?: string }[]) ?? []).map((r) => ({ f: r.at, s: r.kind === "=" ? "coins" : "typing", v: r.kind === "=" ? 0.28 : 0.2 }))],
+  SalaryLadder: (b, s) => ((b.props.steps as { at: number }[]) ?? []).map((st) => ({ f: st.at, s: "coins", v: 0.22 })),
+  DayClock: (b, s) => [{ f: s, s: "tick", v: 0.3 }, ...((b.props.arcs as { at: number }[]) ?? []).map((a) => ({ f: a.at, s: "scribble", v: 0.22 }))],
+  Receipt: (b, s) => [{ f: s, s: "paper", v: 0.35 }, ...((b.props.rows as { at: number }[]) ?? []).map((r) => ({ f: r.at, s: "typing", v: 0.2 })), ...(b.props.total ? [{ f: (b.props.total as { at: number }).at, s: "stamp", v: 0.3 }] : [])],
+  BusRoute: (_, s) => [{ f: s, s: "scribble_long", v: 0.24 }, { f: s + 6, s: "whoosh", v: 0.2 }],
   Streak: (b, s) => ((b.props.marks as string[]) ?? []).map((m, i) => ({ f: s + 6 + i * ((b.props.every as number) ?? 4), s: m === "falha" ? "error" : "check", v: 0.2 })),
 };
 
