@@ -100,3 +100,11 @@ Quando o Editor precisar de algo que não existe acima, o Designer cria um compo
 - Etiqueta e post-it já ajustam o texto ao tamanho, mas texto curto fica maior e mais legível: post-it com até 16 letras.
 - Gráfico de linha com título e rótulo final no alto se sobrepõem: use só o título ("SPRINTS ATÉ O OBJETIVO").
 - Confira quadro a quadro com ffmpeg os trechos onde um elemento entra perto do fim de uma tela: a folha amostra só alguns quadros.
+
+## Cena de gancho (hook) — obrigatória em todo vídeo
+
+No `cenas.json`, cada vídeo leva `"hook": {"title": "...", "kicker": "...", "doodle": "setas", "until": 3.2}`.
+- `title`: a promessa do vídeo em até 30 letras; a palavra entre `*asteriscos*` ganha marca-texto.
+- `kicker` (opcional): linha manuscrita curta acima, que cria a tensão ("e ninguém me avisou disso:").
+- `doodle`: `setas` (apontam para o rosto), `circulo`, `raio`, `interrogacao` ou `dinheiro`.
+- A tira cai sobre a parede, acima da cabeça, com o rosto inteiro visível; sai em 8 frames antes do palco (até 3,2s).

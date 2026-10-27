@@ -4,6 +4,7 @@ import { AbsoluteFill, Easing, interpolate, Sequence, staticFile, useCurrentFram
 import { Arrow, Bars, Cell, Checklist, Counter, LineChart, Person, Pin, PostIt, Stamp, Tag, Thesis } from "./elements";
 import { Barbell, Battery, Icon, IconRow, Payslip, Stairs, Streak, Tabs, Timer } from "./narrative";
 import { C, F, L, loadKitFonts } from "./theme";
+import { HookCard, HookProps } from "./hook";
 
 loadKitFonts();
 
@@ -24,6 +25,7 @@ export type ExplainerProps = {
   punches?: number[]; // segundos: punch-in no rosto em palavras de enfase
   sfx?: boolean;
   voice?: string; // voz montada a parte (com micro crossfade nas emendas); se existir, o video fica mudo
+  hook?: HookProps; // cena de gancho por cima do rosto nos primeiros segundos
 };
 
 const ELEMENTS = { Person, Tag, PostIt, Stamp, Pin, Arrow, LineChart, Bars, Checklist, Cell, Counter, Thesis, Icon, IconRow, Tabs, Battery, Timer, Stairs, Barbell, Payslip, Streak } as const;
@@ -252,9 +254,10 @@ const SFX_OF: Record<string, (b: Beat, s: number) => Cue[]> = {
   Streak: (b, s) => ((b.props.marks as string[]) ?? []).map((m, i) => ({ f: s + 6 + i * ((b.props.every as number) ?? 4), s: m === "falha" ? "error" : "check", v: 0.2 })),
 };
 
-const SfxTrack: React.FC<Pick<ExplainerProps, "beats" | "modes" | "chapters" | "punches">> = ({ beats, modes, chapters, punches = [] }) => {
+const SfxTrack: React.FC<Pick<ExplainerProps, "beats" | "modes" | "chapters" | "punches" | "hook">> = ({ beats, modes, chapters, punches = [], hook }) => {
   const { fps } = useVideoConfig();
   const cues: Cue[] = [];
+  if (hook) cues.push({ f: 0, s: "paper", v: 0.35 }, { f: 10, s: "scribble", v: 0.25 });
   for (const b of beats) cues.push(...(SFX_OF[b.el]?.(b, Math.round(b.at * fps)) ?? []));
   const list = sortedModes(modes);
   list.slice(1).forEach((m, i) => { if (m.mode !== list[i].mode) cues.push({ f: Math.round(m.at * fps), s: "whoosh", v: 0.22 }); });
@@ -274,7 +277,7 @@ const SfxTrack: React.FC<Pick<ExplainerProps, "beats" | "modes" | "chapters" | "
   );
 };
 
-export const Explainer: React.FC<ExplainerProps> = ({ head, clips, modes, captions, chapters, beats, punches = [], sfx = true, voice }) => {
+export const Explainer: React.FC<ExplainerProps> = ({ head, clips, modes, captions, chapters, beats, punches = [], sfx = true, voice, hook }) => {
   const { div, capY } = useModeState(modes);
   // o papel desce de cima ate a divisoria; no modo animacao cobre tudo e o desenho centraliza
   const slide = Math.min(0, div - L.STAGE_H);
@@ -295,8 +298,9 @@ export const Explainer: React.FC<ExplainerProps> = ({ head, clips, modes, captio
         </div>
       )}
       {div > 1 && div < L.H - 2 && <PaperEdge y={div} />}
+      {hook && <HookCard {...hook} />}
       <Caption words={captions} y={capY} />
-      {sfx && <SfxTrack beats={beats} modes={modes} chapters={chapters} punches={punches} />}
+      {sfx && <SfxTrack beats={beats} modes={modes} chapters={chapters} punches={punches} hook={hook} />}
     </AbsoluteFill>
   );
 };

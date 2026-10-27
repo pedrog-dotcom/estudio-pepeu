@@ -406,11 +406,12 @@ def cenas(slug):
             if isinstance(o, list): return [conv(x) for x in o]
             return o
         beats = [{"at": b["at"], "el": b["el"], "props": conv(b.get("props", {})), **({"until": b["until"]} if "until" in b else {})} for b in sc["beats"]]
-        out = dict(base, modes=[{"at": a, "mode": m} for a, m in modes], chapters=sc.get("chapters", []), beats=beats, punches=sc.get("punches", []))
+        out = dict(base, modes=[{"at": a, "mode": m} for a, m in modes], chapters=sc.get("chapters", []), beats=beats, punches=sc.get("punches", []), **({"hook": sc["hook"]} if "hook" in sc else {}))
         T = out["durationInFrames"] / FPS
         ms = modes + [[T, "end"]]
         stage = sum(ms[i + 1][0] - ms[i][0] for i in range(len(modes)) if modes[i][1] != "head")
         json.dump(out, open(vdir / f"{slug}_{vid}.json", "w"), ensure_ascii=False, indent=1)
+        if "hook" not in sc: print(f"  aviso {vid}: sem cena de gancho (hook)")
         print(f"{slug}_{vid}: {T:.1f}s, palco {stage / T:.0%}, {len(beats)} animacoes")
     registrar()
 
