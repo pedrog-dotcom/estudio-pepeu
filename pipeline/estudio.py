@@ -59,8 +59,13 @@ def prep(raw, slug):
     d = wdir(slug)
     head = KIT / "public" / f"bruto_{slug}.mp4"
     print("1/4 transcodificando para 1080x1920 30fps...")
-    r = sh(f'ffmpeg -v error -y -i "{raw}" -vf "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30" '
-           f'-c:v libx264 -crf 18 -preset veryfast -g 30 -c:a aac -b:a 192k "{head}"')
+    # iPhone grava em HDR (HLG/PQ, 10 bits); o Chrome do Remotion le esse sinal com cor estourada (pele laranja).
+    # Converte para SDR bt709 de 8 bits antes de tudo.
+    trc = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=color_transfer", "-of", "csv=p=0", str(raw)], capture_output=True, text=True).stdout.strip()
+    tone = ("zscale=t=linear:npl=203,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p,"
+            if trc in ("arib-std-b67", "smpte2084") else "")
+    r = sh(f'ffmpeg -v error -y -i "{raw}" -vf "{tone}scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30" '
+           f'-c:v libx264 -crf 18 -preset veryfast -g 30 -pix_fmt yuv420p -colorspace bt709 -color_trc bt709 -color_primaries bt709 -c:a aac -b:a 192k "{head}"')
     if r.returncode: sys.exit(r.stderr)
     sh(f'ffmpeg -v error -y -i "{head}" -vn -ac 1 -ar 16000 "{d}/audio16k.wav"')
     sh(f'ffmpeg -v error -y -i "{head}" -vn -ac 1 -ar 48000 "{d}/voz48k.wav"')
