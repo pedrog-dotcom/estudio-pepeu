@@ -7,3 +7,5 @@ Formato de cada entrada:
 
 ## Regras ativas
 
+- 26/10/2026 · pediu · vídeos com grande potencial viral · Dê nota de 1 a 5 de potencial viral a cada vídeo (gancho, retenção, compartilhamento) e reprove abaixo de 4, com o ajuste ou a regravação que leva ao 4.
+

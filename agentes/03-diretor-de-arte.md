@@ -10,6 +10,10 @@
 
 O Editor roda `pipeline/estudio.py prep` e entrega `transcricao.txt` (trechos com tempo) e `vicios.json`. Leia a transcrição inteira; corrija palavras que o whisper errou pelo contexto e marque as que ficaram em dúvida.
 
+## Passo 1b: o bruto segura um vídeo viral?
+
+Antes de cortar, avalie gancho (quebra padrão em 3s?), tensão ou virada no meio e payoff no fim. Se o bruto não sustenta isso, ou tem gagueira ou vício que não sai no corte, escreva o doc "Pedido de regravação" em `03 Edição/<tema>/` com: o que regravar, as frases exatas (gancho e 1 variação), o trecho do bruto que elas substituem e por quê. Avise o Pepeu e edite só o que já está bom.
+
 ## Passo 2: os 3 vídeos
 
 Escolha 3 vídeos independentes, cada um com uma mensagem principal, começo, meio e fim (exemplos: a versão completa, um recorte de outro ângulo, uma versão curta). Escreva `cortes.json` com os trechos e o texto exato.
@@ -23,10 +27,11 @@ Para cada vídeo:
 - **Capítulos** (2 a 4) e **animações** palavra a palavra (elemento, texto, posição).
 - **Punch-ins** nas palavras de ênfase.
 - **Cor e áudio:** ajuste de cor só se o bruto precisar (pele, branco); voz a -14 LUFS, efeitos sutis abaixo da voz.
+- **Encomenda ao Designer:** pelo menos uma cena nova por vídeo, desenhada para aquela história (personagem, objeto ou lugar do relato, metáfora visual), com o momento e a fala em que entra.
 - **Palavras da legenda em dúvida.**
 
 Depois do `build`, converta isso em `cenas.json` com os tempos de saída das palavras.
 
 ## Passo 4: revisão do que o Editor entregou
 
-Abra a folha de quadros e assista: confira regras do perfil, elementos fora da tela ou sobrepostos, legenda com palavra errada, vício que sobrou, corte no meio de palavra, cor de significado trocada (verde só para ganho). Responda no doc de aprovação: **aprovado** ou **ajustes** com lista numerada, tempo e correção.
+Abra a folha de quadros e assista: confira regras do perfil, elementos fora da tela ou sobrepostos, legenda com palavra errada, vício ou gagueira que sobrou (cada trecho de `suspeitas_<video>.txt` conferido no áudio), corte no meio de palavra, cor de significado trocada (verde só para ganho). Responda no doc de aprovação: **aprovado** ou **ajustes** com lista numerada, tempo e correção.

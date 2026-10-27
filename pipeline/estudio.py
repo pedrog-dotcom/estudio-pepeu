@@ -341,7 +341,54 @@ def check(slug, rounds=3):
             else: M.append([a, b])
         json.dump(M, open(d / "vicios.json", "w"))
         build(slug)
+    for vid in cortes["videos"]:
+        n = suspeitas(slug, vid)
+        print(f"{vid}: {n} trechos suspeitos de gagueira ou recomeço em suspeitas_{vid}.txt")
     print(f"Transcricao da voz editada em {d}/verificacao_<video>.txt. Compare com o texto de cortes.json antes das cenas.")
+    print("O Diretor resolve cada suspeita (corta, troca o trecho ou pede regravação) antes do render.")
+
+
+def suspeitas(slug, vid):
+    """Gagueira e recomeço: o Whisper limpa a fala e esconde repeticoes, entao procura no audio
+    2 ou mais rajadas curtas (0,06 a 0,4s) separadas por micro pausas dentro de 1,2s.
+    E um alerta para o Diretor ouvir o trecho, nao um corte automatico."""
+    d = wdir(slug)
+    base = json.load(open(d / f"base_{vid}.json"))
+    r = subprocess.run(["ffmpeg", "-v", "error", "-i", str(KIT / "public" / base["voice"]), "-ac", "1", "-ar", "16000", "-f", "s16le", "-"], capture_output=True)
+    y = np.frombuffer(r.stdout, np.int16).astype(np.float32) / 32768
+    n = len(y) // 160
+    db = 20 * np.log10(np.sqrt((y[: n * 160].reshape(n, 160) ** 2).mean(1)) + 1e-9)
+    v = db > db.max() - 28
+    segs, st = [], None
+    for i, x in enumerate(np.r_[v, False]):
+        if x and st is None: st = i
+        if not x and st is not None: segs.append((st / 100, i / 100)); st = None
+    bursts = []
+    for k, (a, b) in enumerate(segs):
+        gb = a - segs[k - 1][1] if k else 9
+        ga = segs[k + 1][0] - b if k + 1 < len(segs) else 9
+        if 0.06 <= b - a <= 0.40 and gb >= 0.05 and ga >= 0.05: bursts.append(a)
+    groups = []
+    for t in bursts:
+        if groups and t - groups[-1][-1] <= 0.6: groups[-1].append(t)
+        else: groups.append([t])
+    groups = [g for g in groups if len(g) >= 2 and g[-1] - g[0] <= 1.2]
+
+    def fonte(t):
+        o = 0
+        for c in base["clips"]:
+            dur = c["durationInFrames"] / FPS
+            if o <= t < o + dur: return c["trimBefore"] / FPS + (t - o)
+            o += dur
+        return -1
+
+    cap = base["captions"]
+    with open(d / f"suspeitas_{vid}.txt", "w") as f:
+        f.write("Trechos com cara de gagueira ou recomeço (ouvir antes do render)\n")
+        for g in groups:
+            words = " ".join(c["text"] for c in cap if c["startMs"] / 1000 <= g[-1] + 0.3 and c["endMs"] / 1000 >= g[0] - 0.3)
+            f.write(f"- video {g[0]:.1f}s a {g[-1]:.1f}s | bruto {fonte(g[0]):.1f}s | {words}\n")
+    return len(groups)
 
 
 # ------------------------------------------------------------------ cenas + registro

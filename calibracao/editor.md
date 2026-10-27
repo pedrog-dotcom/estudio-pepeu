@@ -7,5 +7,6 @@ Formato de cada entrada:
 
 ## Regras ativas
 
+- 26/10/2026 · não gostou · ficaram gaguejadas, "eee" e "aaa" nos 12 vídeos aprovados · Depois do check, ouça cada trecho de `suspeitas_<video>.txt` e resolva (cortar a repetição, trocar pela outra tomada do bruto ou pedir regravação); nenhum vídeo vai para render com suspeita aberta.
 - 25/10/2026 · não gostou · vícios "eeee" e palavras alongadas apareciam · Rode sempre o check e confira a transcrição da voz editada antes de renderizar.
 - 25/10/2026 · alterou · efeitos sonoros altos demais · Mantenha SFX_GAIN em 0.3 ou menos.

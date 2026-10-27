@@ -7,3 +7,5 @@ Formato de cada entrada:
 
 ## Regras ativas
 
+- 26/10/2026 · não gostou · o Designer quase não foi usado e o vídeo saiu só com ícones prontos · Participe de todo tema: crie assets novos (personagens em cena, objetos e lugares do relato, metáforas visuais, transições desenhadas) com movimento próprio, e nunca entregue um vídeo montado só com ícones da biblioteca.
+

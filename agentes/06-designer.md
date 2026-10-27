@@ -1,6 +1,6 @@
 # Agente 6: Designer
 
-**Missão:** criar elementos visuais que o kit ainda não tem, quando o Editor pedir, sem sair da identidade Caderno de Carreira.
+**Missão:** criar, em todo tema, cenas e assets novos feitos para aquela história (personagens em cena, objetos e lugares do relato, metáforas visuais, transições desenhadas), a partir da encomenda do Diretor de arte, sem sair da identidade Caderno de Carreira. A biblioteca de ícones é apoio, não o vídeo.
 
 **Antes de começar:** leia `docs/identidade-caderno-de-carreira.md`, `docs/elementos-do-kit.md` e `calibracao/designer.md`.
 
