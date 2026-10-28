@@ -5,7 +5,7 @@ import { Arrow, Bars, Cell, Checklist, Counter, LineChart, Person, Pin, PostIt, 
 import { Barbell, Battery, Icon, IconRow, Payslip, Stairs, Streak, Tabs, Timer } from "./narrative";
 import { C, F, L, loadKitFonts } from "./theme";
 import { HookCard, HookProps } from "./hook";
-import { BusRoute, DayClock, Receipt, SalaryLadder } from "./scenes";
+import { BusRoute, DayClock, Door, MindNoise, PitRescue, Receipt, SalaryLadder } from "./scenes";
 
 loadKitFonts();
 
@@ -29,7 +29,7 @@ export type ExplainerProps = {
   hook?: HookProps; // cena de gancho por cima do rosto nos primeiros segundos
 };
 
-const ELEMENTS = { Person, Tag, PostIt, Stamp, Pin, Arrow, LineChart, Bars, Checklist, Cell, Counter, Thesis, Icon, IconRow, Tabs, Battery, Timer, Stairs, Barbell, Payslip, Streak, SalaryLadder, DayClock, Receipt, BusRoute } as const;
+const ELEMENTS = { Person, Tag, PostIt, Stamp, Pin, Arrow, LineChart, Bars, Checklist, Cell, Counter, Thesis, Icon, IconRow, Tabs, Battery, Timer, Stairs, Barbell, Payslip, Streak, SalaryLadder, DayClock, Receipt, BusRoute, PitRescue, MindNoise, Door } as const;
 
 const MODE_VALUES: Record<Mode, { div: number; capY: number }> = {
   head: { div: 0, capY: 1330 },
@@ -256,6 +256,9 @@ const SFX_OF: Record<string, (b: Beat, s: number) => Cue[]> = {
   DayClock: (b, s) => [{ f: s, s: "tick", v: 0.3 }, ...((b.props.arcs as { at: number }[]) ?? []).map((a) => ({ f: a.at, s: "scribble", v: 0.22 }))],
   Receipt: (b, s) => [{ f: s, s: "paper", v: 0.35 }, ...((b.props.rows as { at: number }[]) ?? []).map((r) => ({ f: r.at, s: "typing", v: 0.2 })), ...(b.props.total ? [{ f: (b.props.total as { at: number }).at, s: "stamp", v: 0.3 }] : [])],
   BusRoute: (_, s) => [{ f: s, s: "scribble_long", v: 0.24 }, { f: s + 6, s: "whoosh", v: 0.2 }],
+  PitRescue: (b, s) => [{ f: s, s: "pop", v: 0.25 }, { f: s + 6, s: "scribble", v: 0.25 }, ...(b.props.sinkAt !== undefined ? [{ f: Math.round((b.props.sinkAt as number)), s: "whoosh", v: 0.22 }] : [])],
+  MindNoise: (b, s) => [{ f: s, s: "scribble_long", v: 0.22 }, ...(b.props.quietAt !== undefined ? [{ f: b.props.quietAt as number, s: "ding", v: 0.25 }] : [])],
+  Door: (b, s) => [{ f: s, s: "pop", v: 0.25 }, ...(b.props.openAt !== undefined ? [{ f: b.props.openAt as number, s: "page", v: 0.3 }] : [])],
   Streak: (b, s) => ((b.props.marks as string[]) ?? []).map((m, i) => ({ f: s + 6 + i * ((b.props.every as number) ?? 4), s: m === "falha" ? "error" : "check", v: 0.2 })),
 };
 

@@ -167,3 +167,89 @@ export const BusRoute: React.FC<Base & { from: string; to: string; dur?: number;
     </g>
   );
 };
+
+// ---------- bonequinho simples (para cenas) ----------
+const Stick: React.FC<{ x: number; y: number; s?: number; shirt?: string; seed: number; arm?: number }> = ({ x, y, s = 1, shirt = C.pen, seed, arm = 0 }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`}>
+    <Sketch paths={sk.line(-14, 46, -18, 110, { seed, strokeWidth: 6 })} />
+    <Sketch paths={sk.line(14, 46, 18, 110, { seed: seed + 1, strokeWidth: 6 })} />
+    <Sketch paths={sk.rect(-28, -26, 56, 76, { seed, fill: shirt, roughness: 0.9 })} />
+    <Sketch paths={sk.rect(-28, -26, 56, 76, { seed: seed + 2, strokeWidth: 3 })} />
+    <Sketch paths={sk.line(-28, -16, -48, 34 - arm, { seed: seed + 3, strokeWidth: 6 })} />
+    <Sketch paths={sk.line(28, -16, 48, 34 - arm, { seed: seed + 4, strokeWidth: 6 })} />
+    <Sketch paths={sk.circle(0, -58, 58, { seed, fill: "#F2C9A0", roughness: 0.7 })} />
+    <Sketch paths={sk.circle(0, -58, 58, { seed: seed + 5, strokeWidth: 3 })} />
+    <circle cx={-9} cy={-60} r={3.5} fill={C.ink} /><circle cx={9} cy={-60} r={3.5} fill={C.ink} />
+  </g>
+);
+
+// ---------- o buraco: voce estende a mao, a corda puxa voce para baixo ----------
+export const PitRescue: React.FC<Base & { you?: string; them?: string; sinkAt?: number; caption?: string }> = ({ start, x, y, you = "VOCÊ", them = "QUEM FICOU", sinkAt, caption, seed = 841 }) => {
+  const f = useCurrentFrame();
+  const { scale, visible } = usePop(start);
+  if (!visible) return null;
+  const rope = interpolate(f, [start + 6, start + 16], [0, 1], ease);
+  const sink = sinkAt !== undefined ? interpolate(f, [sinkAt, sinkAt + 14], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) }) : 0;
+  const lean = 70 * sink;
+  return (
+    <g transform={`translate(${x} ${y}) scale(${scale})`}>
+      <Sketch paths={sk.line(-300, 0, -90, 0, { seed, strokeWidth: 5 })} />
+      <Sketch paths={sk.line(90, 0, 300, 0, { seed: seed + 1, strokeWidth: 5 })} />
+      <Sketch paths={sk.path("M -90 0 C -110 120, -90 230, 0 240 C 90 230, 110 120, 90 0", { seed: seed + 2, fill: "#3B3F52", fillStyle: "hachure", stroke: C.ink, strokeWidth: 5, roughness: 1.4 })} />
+      <Stick x={0} y={110} s={0.9} shirt={C.inkSoft} seed={seed + 10} arm={60} />
+      <g transform={`translate(${-150 + lean * 1.2} ${-110 + lean * 1.9}) rotate(${sink * 40})`}>
+        <Stick x={0} y={0} s={1} seed={seed + 20} arm={40} />
+      </g>
+      <Sketch paths={sk.curve([[-110 + lean * 1.2, -100 + lean * 1.9], [-40, -10 + lean], [-10, 30]], { seed: seed + 30, stroke: C.alert, strokeWidth: 6 })} draw={rope} />
+      <Txt x={-150} y={58} size={26} font={F.hand} weight={700} fill={C.ink}>{you}</Txt>
+      <Txt x={0} y={286} size={26} font={F.hand} weight={700} fill={C.inkSoft}>{them}</Txt>
+      {caption && sink > 0.9 && <Txt x={200} y={-150} size={30} font={F.display} fill={C.alert}>{caption}</Txt>}
+    </g>
+  );
+};
+
+// ---------- a cabeca barulhenta: rabiscos que viram uma linha reta quando a barra sobe ----------
+export const MindNoise: React.FC<Base & { quietAt?: number; label?: string; quietLabel?: string }> = ({ start, x, y, quietAt, label = "MENTE COM TDAH", quietLabel = "SILÊNCIO", seed = 851 }) => {
+  const f = useCurrentFrame();
+  const { scale, visible } = usePop(start);
+  if (!visible) return null;
+  const q = quietAt !== undefined ? interpolate(f, [quietAt, quietAt + 16], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) }) : 0;
+  const jitter = (i: number) => Math.sin(f * 0.9 + i * 1.7) * 14 * (1 - q);
+  const lines = Array.from({ length: 7 }).map((_, i) => {
+    const yy = -70 + i * 24;
+    const pts = Array.from({ length: 9 }).map((__, k) => `${-110 + k * 27.5} ${yy * (1 - q) + (k % 2 ? 1 : -1) * (18 + (i % 3) * 6) * (1 - q) + jitter(i + k)}`);
+    return `M ${pts.join(" L ")}`;
+  });
+  return (
+    <g transform={`translate(${x} ${y}) scale(${scale})`}>
+      <Sketch paths={sk.path("M -150 40 C -170 -120, -40 -200, 60 -160 C 160 -130, 170 -10, 130 50 L 130 140 L -60 140 L -60 100 C -110 100, -150 80, -150 40 Z", { seed, fill: C.white, stroke: C.ink, strokeWidth: 5, roughness: 1.1 })} />
+      <g transform="translate(0 -30)">
+        {lines.map((d, i) => <path key={i} d={d} fill="none" stroke={q > 0.5 ? C.gain : i % 2 ? C.alert : C.pen} strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" opacity={0.85} />)}
+      </g>
+      <Txt y={210} size={30} font={F.display} fill={q > 0.5 ? C.gain : C.alert}>{q > 0.5 ? quietLabel : label}</Txt>
+    </g>
+  );
+};
+
+// ---------- a porta: a faculdade publica abre para as grandes empresas ----------
+export const Door: React.FC<Base & { label: string; behind: string; openAt?: number }> = ({ start, x, y, label, behind, openAt, seed = 861 }) => {
+  const f = useCurrentFrame();
+  const { scale, visible } = usePop(start);
+  if (!visible) return null;
+  const o = openAt !== undefined ? interpolate(f, [openAt, openAt + 12], [0, 1], ease) : 0;
+  const W = 220, H = 340;
+  return (
+    <g transform={`translate(${x} ${y}) scale(${scale})`}>
+      <rect x={-W / 2} y={-H / 2} width={W} height={H} fill={C.marker} opacity={0.9} />
+      <Txt y={-20} size={30} font={F.display} fill={C.ink}>{behind.split(" ")[0]}</Txt>
+      <Txt y={20} size={30} font={F.display} fill={C.ink}>{behind.split(" ").slice(1).join(" ")}</Txt>
+      <Sketch paths={sk.rect(-W / 2 - 16, -H / 2 - 16, W + 32, H + 16, { seed, strokeWidth: 6 })} />
+      <g transform={`translate(${-W / 2} 0) scale(${1 - 0.82 * o} 1) translate(${W / 2} 0)`}>
+        <Sketch paths={sk.rect(-W / 2, -H / 2, W, H, { seed: seed + 1, fill: "#C98B52", stroke: C.ink, strokeWidth: 4, roughness: 0.8 })} />
+        <circle cx={W / 2 - 28} cy={10} r={9} fill={C.ink} opacity={1 - o} />
+        <g opacity={1 - o}><Txt y={-60} size={30} font={F.display} fill={C.white}>{label}</Txt></g>
+      </g>
+      <Sketch paths={sk.line(-W / 2 - 60, H / 2, W / 2 + 60, H / 2, { seed: seed + 2, strokeWidth: 5 })} />
+    </g>
+  );
+};
