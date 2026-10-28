@@ -203,7 +203,7 @@ export const PitRescue: React.FC<Base & { you?: string; them?: string; sinkAt?: 
       <Sketch paths={sk.curve([[-110 + lean * 1.2, -100 + lean * 1.9], [-40, -10 + lean], [-10, 30]], { seed: seed + 30, stroke: C.alert, strokeWidth: 6 })} draw={rope} />
       <Txt x={-150} y={58} size={26} font={F.hand} weight={700} fill={C.ink}>{you}</Txt>
       <Txt x={0} y={286} size={26} font={F.hand} weight={700} fill={C.inkSoft}>{them}</Txt>
-      {caption && sink > 0.9 && <Txt x={200} y={-150} size={30} font={F.display} fill={C.alert}>{caption}</Txt>}
+      {caption && sink > 0.9 && <Txt x={0} y={-190} size={34} font={F.display} fill={C.alert}>{caption}</Txt>}
     </g>
   );
 };
