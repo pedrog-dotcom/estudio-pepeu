@@ -63,7 +63,7 @@ export const DayClock: React.FC<Base & { arcs: { from: number; to: number; kind:
   const pt = (h: number, rr: number) => { const a = (h / 24) * Math.PI * 2 - Math.PI / 2; return [Math.cos(a) * rr, Math.sin(a) * rr] as const; };
   return (
     <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      {title && <Txt y={-r - 70} size={34} fill={C.inkSoft}>{title}</Txt>}
+      {title && <Txt y={-r - 120} size={34} fill={C.inkSoft}>{title}</Txt>}
       <circle r={r + 14} fill={C.white} />
       <Sketch paths={sk.circle(0, 0, (r + 14) * 2, { seed, strokeWidth: 4 })} />
       {Array.from({ length: 24 }).map((_, h) => {
@@ -78,12 +78,12 @@ export const DayClock: React.FC<Base & { arcs: { from: number; to: number; kind:
         const rr = r - 70;
         const [x1, y1] = pt(a.from, rr), [x2, y2] = pt(end, rr);
         const large = end - a.from > 12 ? 1 : 0;
-        const mid = pt((a.from + a.to) / 2, rr + 92);
+        const mid = pt((a.from + a.to) / 2, r + 66);
         return (
           <g key={i}>
             <path d={`M ${x1} ${y1} A ${rr} ${rr} 0 ${large} 1 ${x2} ${y2}`} fill="none" stroke={col[a.kind]} strokeWidth={46} strokeLinecap="butt" opacity={0.85} />
             {a.label && t > 0.9 && (
-              <g transform={`translate(${mid[0] * 1.55} ${mid[1] * 1.25})`}>
+              <g transform={`translate(${mid[0] * 1.25} ${mid[1]})`}>
                 <rect x={-a.label.length * 9 - 14} y={-24} width={a.label.length * 18 + 28} height={48} fill={col[a.kind]} />
                 <Txt size={28} font={F.display} fill={C.white}>{a.label}</Txt>
               </g>
