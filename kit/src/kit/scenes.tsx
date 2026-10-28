@@ -241,8 +241,8 @@ export const Door: React.FC<Base & { label: string; behind: string; openAt?: num
   return (
     <g transform={`translate(${x} ${y}) scale(${scale * size})`}>
       <rect x={-W / 2} y={-H / 2} width={W} height={H} fill={C.marker} opacity={0.9} />
-      <Txt y={-20} size={30} font={F.display} fill={C.ink}>{behind.split(" ")[0]}</Txt>
-      <Txt y={20} size={30} font={F.display} fill={C.ink}>{behind.split(" ").slice(1).join(" ")}</Txt>
+      <Txt x={20} y={-18} size={26} font={F.display} fill={C.ink}>{behind.split(" ")[0]}</Txt>
+      <Txt x={20} y={18} size={26} font={F.display} fill={C.ink}>{behind.split(" ").slice(1).join(" ")}</Txt>
       <Sketch paths={sk.rect(-W / 2 - 16, -H / 2 - 16, W + 32, H + 16, { seed, strokeWidth: 6 })} />
       <g transform={`translate(${-W / 2} 0) scale(${1 - 0.82 * o} 1) translate(${W / 2} 0)`}>
         <Sketch paths={sk.rect(-W / 2, -H / 2, W, H, { seed: seed + 1, fill: "#C98B52", stroke: C.ink, strokeWidth: 4, roughness: 0.8 })} />
