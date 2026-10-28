@@ -232,14 +232,14 @@ export const MindNoise: React.FC<Base & { quietAt?: number; label?: string; quie
 };
 
 // ---------- a porta: a faculdade publica abre para as grandes empresas ----------
-export const Door: React.FC<Base & { label: string; behind: string; openAt?: number }> = ({ start, x, y, label, behind, openAt, seed = 861 }) => {
+export const Door: React.FC<Base & { label: string; behind: string; openAt?: number; size?: number }> = ({ start, x, y, label, behind, openAt, size = 1, seed = 861 }) => {
   const f = useCurrentFrame();
   const { scale, visible } = usePop(start);
   if (!visible) return null;
   const o = openAt !== undefined ? interpolate(f, [openAt, openAt + 12], [0, 1], ease) : 0;
   const W = 220, H = 340;
   return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
+    <g transform={`translate(${x} ${y}) scale(${scale * size})`}>
       <rect x={-W / 2} y={-H / 2} width={W} height={H} fill={C.marker} opacity={0.9} />
       <Txt y={-20} size={30} font={F.display} fill={C.ink}>{behind.split(" ")[0]}</Txt>
       <Txt y={20} size={30} font={F.display} fill={C.ink}>{behind.split(" ").slice(1).join(" ")}</Txt>
